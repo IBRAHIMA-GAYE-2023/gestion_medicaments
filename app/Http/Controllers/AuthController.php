@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Medicament;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -17,27 +18,33 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-    /**
-     * Traiter l'inscription
-     */
+/**
+ * Traiter l'inscription
+ */
     public function register(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'required|string|min:6|confirmed',
+        'role' => 'required|in:admin,user', // Validation du rôle
+    ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'role' => $request->role, // Enregistrement du rôle
+    ]);
 
-        // Connecter automatiquement l'utilisateur après inscription
-        Auth::login($user);
+    // Connecter automatiquement l'utilisateur après inscription
+    Auth::login($user);
 
-        return redirect()->route('medicaments.index')->with('success', 'Inscription réussie ✅');
+    // Redirection selon le rôle
+    if ($user->role === 'admin') {
+        return redirect()->route('dashboardAdmin')->with('success', 'Inscription réussie ✅');
+    }
+        return redirect()->route('user.dashboard')->with('success', 'Inscription réussie ✅');
     }
 
     /**
@@ -46,6 +53,18 @@ class AuthController extends Controller
     public function showLogin()
     {
         return view('auth.login');
+    }
+
+    public function dashboard()
+    {
+        return view('user.dashboard'); // ou le nom correct de la vue
+    }
+ 
+
+    public function infirmerie()
+    {
+        $medicaments = Medicament::all();
+        return view('user.infirmerie', compact('medicaments'));
     }
 
     /**
@@ -58,9 +77,15 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
+
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended(route('medicaments.index'))->with('success', 'Connexion réussie ✅');
+            $user = Auth::user();
+                if($user->role === 'admin'){
+                    return redirect()->intended(route('dashboardAdmin'))->with('success', 'Connexion réussie ✅');
+                }else{
+                    return redirect()->intended(route('user.dashboard'))->with('success', 'Connexion réussie ✅');
+                }
         }
 
         return back()->withErrors([
@@ -78,6 +103,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login')->with('success', 'Déconnexion réussie 👋');
+        return redirect()->route('login')->with('success', 'Déconnexion réussie👋');
     }
 }

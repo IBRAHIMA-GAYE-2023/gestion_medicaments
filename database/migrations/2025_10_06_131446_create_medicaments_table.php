@@ -6,20 +6,29 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up(): void
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
     {
         Schema::create('medicaments', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-            $table->string('dosage');
-            $table->string('frequence');
-            $table->string('duree')->nullable(); // durée du traitement, optionnelle
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // lien avec utilisateur
+            $table->integer('stock');
+            $table->time('heure_a_prendre');
+            $table->text('details')->nullable();
             $table->timestamps();
         });
     }
 
-    public function down(): void
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
     {
         Schema::dropIfExists('medicaments');
     }

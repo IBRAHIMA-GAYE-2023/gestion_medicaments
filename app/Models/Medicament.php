@@ -9,10 +9,10 @@ class Medicament extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'dosage', 'frequence', 'duree', 'user_id'];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+        protected $fillable = [
+        'nom',
+        'stock',
+        'heure_a_prendre',
+        'details',
+    ];
 }
