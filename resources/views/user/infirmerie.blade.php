@@ -49,18 +49,26 @@
                             <td class="px-6 py-4 border text-gray-800">{{ $medicament->stock }}</td>
                             <td class="px-6 py-4 border text-gray-800">{{ $medicament->heure_a_prendre }}</td>
                             <td class="px-6 py-4 border text-gray-800">{{ $medicament->details }}</td>
-                             <!-- <td class="px-6 py-4 border">
-                                <a href="{{ route('medicaments.show', $medicament) }}" 
-                                   class="inline-flex items-center text-green-700 hover:text-green-900 font-semibold transition">
-                                        <span class="ml-1">Prise-Med</span>
-                                </a>
-                            </td> -->
-                            <td class="px-6 py-4 border">
-                                <a href="{{ route('medicaments.show', $medicament) }}" 
+                           <td class="px-6 py-4 border">
+                            <div class="flex gap-x-2">
+                                <form action="{{ route('medicaments.prendre', $medicament->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="inline-flex items-center text-green-700 hover:text-green-900 font-semibold transition">
+                                    💊<span class="ml-1">Prendre</span>
+                                </button>
+                                </form>
+<!-- 
+                                 <a href="{{ route('medicaments.show', $medicament) }}" 
                                    class="inline-flex items-center text-green-700 hover:text-green-900 font-semibold transition">
                                     👁️<span class="ml-1">Voir</span>
-                                </a>
+                                </a> -->
+                            </div>
+                           
+                            <!-- <td class="px-6 py-4 border"> -->
+                               
                             </td>
+                            
+                             <!-- </td> -->
                             
                         </tr>
                     @empty

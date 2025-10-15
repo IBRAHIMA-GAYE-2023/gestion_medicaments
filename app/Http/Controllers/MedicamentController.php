@@ -8,9 +8,22 @@ class MedicamentController extends Controller
 {
     public function index()
     {
+
         $medicaments = Medicament::all();
-        return view('admin.medicaments.index', compact('medicaments'));
+        $totalMedicaments = $medicaments->count();
+
+        return view('admin.medicaments.index', compact('medicaments', 'totalMedicaments'));
     }
+
+    public function dashboardAdmin()
+    {
+        
+        $medicaments = Medicament::all();
+        $totalMedicaments = $medicaments->count();
+
+        return view('admin.dashboardAdmin', compact('medicaments', 'totalMedicaments'));
+    }
+
 
     public function create()
     {

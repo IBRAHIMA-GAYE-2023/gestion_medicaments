@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+Route::post('/medicaments/{id}/prendre', [MedicamentController::class, 'prendre'])->name('medicaments.prendre');
+
 // Authentification
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
@@ -35,18 +37,19 @@ Route::middleware(['auth'])->group(function () {
 
     // Routes admin
     Route::prefix('admin')->group(function () {
-        Route::get('/dashboardAdmin', function () {
-            return view('admin.dashboardAdmin');
-        })->name('dashboardAdmin');
+        Route::get('/dashboardAdmin', [MedicamentController::class, 'dashboardAdmin'])->name('dashboardAdmin');
 
         Route::resource('medicaments', MedicamentController::class);
 
-        // Route::get('/messages', function () {
-        //     return view('admin.messages');
-        // })->name('messages');
+       // Formulaire pour envoyer un message (page vue par l'utilisateur)
+        Route::get('/messages/create', [MessageController::class, 'formMessage'])->name('formMessage');
 
-
-        Route::get('/messages', [MessageController::class, 'index'])->name('messages');
+        // Soumission du formulaire
         Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
+
+        // Liste des messages (vue admin/infirmier)
+        Route::get('/messages', [MessageController::class, 'index'])->name('messages.list');
+
+
     });
 });

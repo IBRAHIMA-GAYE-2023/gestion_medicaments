@@ -16,4 +16,18 @@ class Message extends Model
         'is_read',
         'typeMedicament',
     ];
+
+
+    public function sender()
+    {
+        return $this->belongsTo(User::class, 'sender_id');
+    }
+
+
+    public function messagesReceived()
+    {
+        return $this->hasMany(Message::class, 'receiver_id');
+    }
 }
+
+

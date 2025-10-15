@@ -23,7 +23,7 @@
         <!-- Formulaire -->
         <form method="POST" action="{{ route('register') }}" class="space-y-4">
             @csrf
-            
+
             <!-- Nom -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">Nom</label>
@@ -56,7 +56,7 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700">Rôle</label>
                 <select name="role" required
-                    class="mt-1 py-1 px-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" placeholder="role">
+                    class="mt-1 py-1 px-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" placeholder="">
                     <option value="user">Apprenant(e)</option>
                     <option value="admin">Administrateur</option>
                     

@@ -1,4 +1,4 @@
-    <nav class="navbar navbar-expand-lg bg-green-600 mb-4 ">
+    <nav class="navbar navbar-expand-lg bg-green-200 mb-4 ">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
                 <i class="bi bi-capsule"></i> Gestion Médicaments

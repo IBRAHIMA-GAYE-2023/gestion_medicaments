@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <!-- Import Tailwind CSS CDN -->
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
@@ -23,9 +24,11 @@
             </div>
         @endif
 
+        
         <!-- Tableau des médicaments -->
         <div class="bg-white shadow-md rounded-lg overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-300 border border-gray-300">
+            <span class="text-3xl text-gray-500 ">Nombre de Medicaments: {{ $totalMedicaments }} </span>
+            <table class="min-w-full divide-y divide-gray-300 border mt-4 border-gray-300">
                 <thead class="bg-gray-50">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase border">Nom</th>

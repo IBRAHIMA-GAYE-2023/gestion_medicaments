@@ -21,7 +21,7 @@
             <label for="details">Détails</label>
             <textarea name="details" class="form-control"></textarea>
         </div>
-        <button type="submit" class="mt-3 btn btn-dark">Ajouter</button>
+        <button type="submit" class="mt-3 btn btn-success">Ajouter</button>
     </form>
 </div>
 @endsection

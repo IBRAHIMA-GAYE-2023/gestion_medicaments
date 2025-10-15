@@ -15,4 +15,8 @@ class Medicament extends Model
         'heure_a_prendre',
         'details',
     ];
+
+    
 }
+
+

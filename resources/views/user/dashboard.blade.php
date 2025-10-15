@@ -10,7 +10,7 @@
     <aside class="w-64 bg-green-200 text-green-900 shadow-lg flex flex-col py-8 px-4">
         <div class="mb-10 text-center">
             <div class="text-5xl mb-2">🩺</div>
-            <h2 class="text-xl font-bold">Espace Utilisateur</h2>
+            <h2 class="text-xl font-bold">Espace Apprenant</h2>
         </div>
 
         <nav class="flex flex-col space-y-4">
@@ -24,6 +24,11 @@
                 🏥<span class="ml-3 font-medium">Infirmerie</span>
             </a>
 
+            <a href="{{ route('formMessage') }}"
+               class="flex items-center px-4 py-2 hover:bg-green-300 rounded-lg transition duration-200">
+                🏥<span class="ml-3 font-medium">Envoyer Message</span>
+            </a>
+
             <form method="POST" action="{{ route('logout') }}" class="pt-6 border-t border-green-300">
                 @csrf
                 <button type="submit"
@@ -31,6 +36,8 @@
                     🚪<span class="ml-3 font-medium">Se déconnecter</span>
                 </button>
             </form>
+
+
         </nav>
     </aside>
 
@@ -59,6 +66,8 @@
                 </a>
 
             </div>
+
+            
         </div>
     </main>
 </div>

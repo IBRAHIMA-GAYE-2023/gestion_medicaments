@@ -3,7 +3,7 @@
         <div class="text-white font-bold text-lg">Gestion Medicament</div>
         <div class="space-x-4">
             <a href="{{ route('dashboardAdmin') }}" class="text-white hover:bg-green-600 rounded px-3 py-2">Dashboard</a>
-            <a href="{{ route('messages') }}" class="text-white hover:bg-green-600 rounded px-3 py-2">Messages</a>
+            <a href="{{ route('messages.list') }}" class="text-white hover:bg-green-600 rounded px-3 py-2">Messages</a>
             <a href="{{ route('medicaments.index') }}" class="text-white hover:bg-green-600 rounded px-3 py-2">Medicaments</a>
 
             <!-- Logout button -->
