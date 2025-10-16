@@ -41,14 +41,16 @@ Route::middleware(['auth'])->group(function () {
 
         Route::resource('medicaments', MedicamentController::class);
 
-       // Formulaire pour envoyer un message (page vue par l'utilisateur)
-        Route::get('/messages/create', [MessageController::class, 'formMessage'])->name('formMessage');
 
-        // Soumission du formulaire
-        Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
+        // Routes pour les messages
+        Route::get('/messages/recu', [MessageController::class, 'messageRecu'])->name('messagesRecu');
+        Route::get('/messages/envoyer', [MessageController::class, 'formMessage'])->name('formMessage');
+        Route::post('/messages/envoyer', [MessageController::class, 'store'])->name('messages.store');
 
-        // Liste des messages (vue admin/infirmier)
-        Route::get('/messages', [MessageController::class, 'index'])->name('messages.list');
+        // Admin
+        Route::get('/admin/messages', [MessageController::class, 'index'])->name('admin.messages');
+        Route::post('/admin/messages/{message}/repondre', [MessageController::class, 'repondre'])->name('messages.repondre');
+        Route::delete('/messages/{message}', [MessageController::class, 'destroy'])->name('messages.destroy');
 
 
     });

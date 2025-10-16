@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Message;
@@ -8,17 +7,29 @@ use Illuminate\Http\Request;
 
 class MessageController extends Controller
 {
+    // Admin : liste tous les messages reçus par l'admin
     public function index()
     {
-        $messages = Message::all();
+        $messages = Message::where('receiver_id', auth()->id())->get();
         return view('admin.messages', compact('messages'));
     }
 
+    // Étudiant : formulaire pour envoyer un message
     public function formMessage()
     {
         return view('user.envoyerMessage');
     }
 
+    // Étudiant : voir ses messages avec réponses
+    public function messageRecu()
+    {
+        $messages = Message::where('sender_id', auth()->id())
+                           ->orWhere('receiver_id', auth()->id())
+                           ->get();
+        return view('user.messageRecu', compact('messages'));
+    }
+
+    // Étudiant : envoyer un message
     public function store(Request $request)
     {
         $request->validate([
@@ -26,17 +37,13 @@ class MessageController extends Controller
             'typeMedicament' => 'required|string',
         ]);
 
-        // Assurez-vous que l'utilisateur est connecté
         $senderId = auth()->id();
-
-        // Récupération d'un infirmier (supposé avoir le rôle 'infirmier')
         $infirmier = User::where('role', 'admin')->first();
 
         if (!$infirmier) {
             return back()->withErrors('Aucun infirmier disponible pour recevoir le message.');
         }
 
-        // Création du message
         Message::create([
             'sender_id' => $senderId,
             'receiver_id' => $infirmier->id,
@@ -45,6 +52,28 @@ class MessageController extends Controller
             'is_read' => false,
         ]);
 
-        return back()->with('success', 'Message envoyé avec succès.');
+        return redirect()->route('messagesRecu')->with('success', 'Message envoyé avec succès.');
     }
+
+    // Admin : répondre à un message
+    public function repondre(Request $request, Message $message)
+    {
+        $request->validate([
+            'reply' => 'required|string|max:1000',
+        ]);
+
+        $message->update([
+            'reply' => $request->reply,
+            'is_read' => true,
+        ]);
+
+        return back()->with('success', 'Réponse envoyée avec succès.');
+    }
+
+    public function destroy(Message $message)
+    {
+        $message->delete();
+        return back()->with('success', 'Message supprimé avec succès.');
+    }
+
 }

@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Medicament;
+use App\Models\Message;
 use Illuminate\Http\Request;
 
 class MedicamentController extends Controller
@@ -17,13 +18,14 @@ class MedicamentController extends Controller
 
     public function dashboardAdmin()
     {
-        
         $medicaments = Medicament::all();
         $totalMedicaments = $medicaments->count();
 
-        return view('admin.dashboardAdmin', compact('medicaments', 'totalMedicaments'));
-    }
+        $messages = Message::all();
+        $totalMessages = $messages->count();
 
+        return view('admin.dashboardAdmin', compact('medicaments', 'totalMedicaments', 'messages', 'totalMessages'));
+    }
 
     public function create()
     {
