@@ -115,7 +115,7 @@
     </div>
     <div class="p-6 bg-blue-50 border-l-4 border-blue-500 rounded-xl shadow-sm hover:shadow-md transition">
         <h4 class="text-sm text-gray-700 font-semibold">Soins hebdomadaires</h4>
-        <p class="text-3xl font-bold text-blue-600 mt-2">27</p>
+        <p class="text-3xl font-bold text-blue-600 mt-2">22</p>
     </div>
 </section>
 
