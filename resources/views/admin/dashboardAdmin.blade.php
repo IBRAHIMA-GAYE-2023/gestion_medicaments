@@ -1,7 +1,8 @@
 @extends('layouts.app')
 @section('content')
+
 <!-- HEADER -->
-<header class="text-center mt-12 mb-8">
+<header class="text-center mt-12 mb-8 px-6">
     <h1 class="text-4xl font-extrabold text-gray-800 tracking-tight">🩺 Tableau de Bord Infirmier</h1>
     <p class="text-gray-500 mt-3 text-lg max-w-2xl mx-auto">
         Suivez la santé des apprenants, les stocks de médicaments et les signalements en temps réel.
@@ -10,26 +11,19 @@
 
 <!-- ACTIONS RAPIDES -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-6">
-    <button
-        class="bg-yellow-400 text-white px-6 py-2.5 rounded-xl shadow hover:shadow-md hover:bg-yellow-500 transition flex items-center gap-2">
+    <button class="bg-yellow-400 text-white px-6 py-2.5 rounded-xl shadow hover:shadow-md hover:bg-yellow-500 transition flex items-center gap-2">
         ➕ Vous avez {{$totalMessages ?? 0}} nouveaux messages
     </button>
-    <button
-        class="bg-indigo-600 text-white px-6 py-2.5 rounded-xl shadow hover:shadow-md hover:bg-indigo-700 transition flex items-center gap-2">
+    <a href="{{ route('medicaments.create') }}" class="bg-indigo-600 text-white px-6 py-2.5 rounded-xl shadow hover:shadow-md hover:bg-indigo-700 transition flex items-center gap-2">
         ➕ Ajouter Médicament
-    </button>
-    <button
-        class="bg-green-600 text-white px-6 py-2.5 rounded-xl shadow hover:shadow-md hover:bg-green-700 transition flex items-center gap-2">
+    </a>
+    <button class="bg-green-600 text-white px-6 py-2.5 rounded-xl shadow hover:shadow-md hover:bg-green-700 transition flex items-center gap-2">
         🔍 Rechercher Apprenant
     </button>
-    <button
-        class="bg-red-600 text-white px-6 py-2.5 rounded-xl shadow hover:shadow-md hover:bg-red-700 transition flex items-center gap-2">
+    <button class="bg-red-600 text-white px-6 py-2.5 rounded-xl shadow hover:shadow-md hover:bg-red-700 transition flex items-center gap-2">
         🚨 Signaler Malade
     </button>
 </div>
-
-<!-- STATS PRINCIPALES -->
-
 
 <!-- SECTION CHART + ACTIVITÉS -->
 <section class="container mx-auto mt-16 px-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -68,41 +62,6 @@
     </div>
 </section>
 
-<!-- CHART SCRIPT -->
-<script>
-    const ctx = document.getElementById('healthChart');
-    new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Médicaments pris', 'Restants', 'Apprenants malades'],
-            datasets: [{
-                data: [
-                    {{ $totalMedicamentsPris ?? 0 }},
-                    {{ ($totalMedicaments ?? 0) - ($totalMedicamentsPris ?? 0) }},
-                    {{ $totalApprenantsMalades ?? 0 }}
-                ],
-                backgroundColor: ['#10B981', '#3B82F6', '#EF4444'],
-                borderWidth: 2,
-                hoverOffset: 10
-            }]
-        },
-        options: {
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: { usePointStyle: true, boxWidth: 12, font: { size: 14 } }
-                }
-            },
-            animation: {
-                animateRotate: true,
-                animateScale: true,
-                duration: 1800,
-                easing: 'easeOutQuint'
-            }
-        }
-    });
-</script>
-
 <!-- INDICATEURS CLÉS -->
 <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 px-6 max-w-6xl mx-auto mb-20">
     <div class="p-6 bg-green-50 border-l-4 border-green-500 rounded-xl shadow-sm hover:shadow-md transition">
@@ -118,5 +77,42 @@
         <p class="text-3xl font-bold text-blue-600 mt-2">22</p>
     </div>
 </section>
+
+<!-- CHART.JS SCRIPT -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('healthChart');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Médicaments pris', 'Totaux', 'Apprenants malades'],
+            datasets: [{
+                data: [
+                    {{ $totalMedicamentsPris ?? 0 }},
+                    {{ ($totalMedicaments ?? 0) - ($totalMedicamentsPris ?? 0) }},
+                    {{ $totalApprenantsMalades ?? 0 }}
+                ],
+                backgroundColor: ['#10B981', '#3B82F6', '#EF4444'],
+                borderWidth: 2,
+                hoverOffset: 10
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { usePointStyle: true, boxWidth: 12, font: { size: 14 } }
+                }
+            },
+            animation: {
+                animateRotate: true,
+                animateScale: true,
+                duration: 1800,
+                easing: 'easeOutQuint'
+            }
+        }
+    });
+</script>
 
 @endsection

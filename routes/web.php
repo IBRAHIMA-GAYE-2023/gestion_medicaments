@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MedicamentController;
+use App\Http\Controllers\PriseMedicamentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\LoginController;
 // use App\Http\Controllers\Auth\MessageController;
@@ -14,6 +15,12 @@ use App\Http\Controllers\MessageController;
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
+
+Route::get('/test-mail', function () {
+    $med = \App\Models\Medicament::first();
+    \Mail::to('leuzbicarle6@gmail.com')->send(new \App\Mail\PrendreMedicamentMail($med));
+    return 'Email envoyé !';
+});
 
 Route::post('/medicaments/{id}/prendre', [MedicamentController::class, 'prendre'])->name('medicaments.prendre');
 
@@ -52,6 +59,11 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/admin/messages/{message}/repondre', [MessageController::class, 'repondre'])->name('messages.repondre');
         Route::delete('/messages/{message}', [MessageController::class, 'destroy'])->name('messages.destroy');
 
+        // Prendre médicament
 
+        Route::post('/medicaments/prendre', [PriseMedicamentController::class, 'prendre'])->name('medicaments.prendre');
+        Route::get('/medicaments/{id}/details', [PriseMedicamentController::class, 'show'])->name('medicaments.details');
+        Route::get('/mes-prises', [PriseMedicamentController::class, 'historique'])
+        ->name('medicaments.historique');
     });
 });

@@ -20,11 +20,10 @@
 
             <!-- STAT CARDS -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-                <div
+                <a href="{{route('medicaments.historique')}}"
                     class="bg-green-50 border-l-4 border-green-500 p-6 rounded-xl shadow hover:shadow-md transition transform hover:-translate-y-1">
                     <h3 class="text-gray-700 font-semibold mb-2">💊 Médicaments Pris</h3>
-                    <p class="text-3xl font-bold text-green-700">{{ $medicamentsPris ?? 0 }}</p>
-                </div>
+                </a>
 
                 <div
                     class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-xl shadow hover:shadow-md transition transform hover:-translate-y-1">
